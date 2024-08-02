@@ -1,3 +1,6 @@
+Please Kindly read the README file from code block.
+
+
 Forex Data Scraper and API:
         This project involves scraping historical forex (foreign exchange) data from Yahoo Finance, storing it in a SQLite database, and providing a REST API to query this data. The project includes a data scraper, an API server, and a periodic job to keep the data updated.
 
