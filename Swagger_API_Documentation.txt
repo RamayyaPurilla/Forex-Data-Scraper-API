@@ -1,0 +1,81 @@
+Forex Data API Documentation
+Introduction
+This document provides an overview of the Forex Data API, including endpoints, parameters, and response formats. The API allows users to fetch historical forex data based on specified criteria.
+
+Base URL
+The base URL for the API is: http://localhost:5000
+
+Endpoints
+1. Get Forex Data
+Fetch historical forex data for a specific currency pair and time period.
+
+Endpoint: /api/forex-data
+
+Method: POST
+
+Parameters:
+
+from (query parameter): The source currency (e.g., "USD")
+to (query parameter): The target currency (e.g., "EUR")
+period (query parameter): The time period for the data (e.g., "1W", "1M", "3M", "6M", "1Y")
+Responses:
+
+200 OK: Returns an array of objects, each containing date (string) and rate (number).
+400 Bad Request: Returns an error message indicating missing or invalid parameters.
+Example Request
+POST /api/forex-data?from=USD&to=EUR&period=1M
+
+Example Response
+[
+{
+"date": "2023-07-01",
+"rate": 0.85
+},
+{
+"date": "2023-07-02",
+"rate": 0.86
+},
+...
+]
+
+2. Get All Forex Data
+Fetch all historical forex data available in the database.
+
+Endpoint: /api/all-data
+Method: GET
+Responses:
+200 OK: Returns an array of objects, each containing from_currency (string), to_currency (string), date (string), and rate (number).
+Example Request
+GET /api/all-data
+
+Example Response
+[
+{
+"from_currency": "USD",
+"to_currency": "EUR",
+"date": "2023-07-01",
+"rate": 0.85
+},
+{
+"from_currency": "USD",
+"to_currency": "EUR",
+"date": "2023-07-02",
+"rate": 0.86
+},
+...
+]
+
+Setting Up Swagger UI
+To provide interactive API documentation, Swagger UI can be used. The flasgger package in Flask helps to integrate Swagger with your Flask application.
+
+Steps to Set Up Swagger UI
+Install flasgger using the command pip install flasgger.
+
+Update your Flask application to include flasgger and Swagger definitions for your endpoints.
+
+Run your Flask app using the command python app.py.
+
+Access Swagger UI by opening a web browser and navigating to http://localhost:5000/apidocs. You should see the Swagger UI displaying your API documentation.
+
+Conclusion
+This documentation provides an overview of the Forex Data API and instructions on how to set up and use Swagger UI for interactive API documentation. With these steps, you can easily integrate and test the API endpoints.

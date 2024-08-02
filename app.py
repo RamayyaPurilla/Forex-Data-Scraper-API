@@ -1,12 +1,50 @@
 from flask import Flask, request, jsonify
 from datetime import datetime, timedelta
 from database import get_db_connection
+from flasgger import Swagger
 import sqlite3
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 @app.route('/api/forex-data', methods=['POST'])
 def get_forex_data():
+    """
+    Get Forex Data
+    ---
+    parameters:
+      - name: from
+        in: query
+        type: string
+        required: true
+        description: The source currency
+      - name: to
+        in: query
+        type: string
+        required: true
+        description: The target currency
+      - name: period
+        in: query
+        type: string
+        required: true
+        description: The time period (1W, 1M, 3M, 6M, 1Y)
+    responses:
+      200:
+        description: A list of forex rates
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                description: The date of the rate
+              rate:
+                type: number
+                description: The exchange rate
+      400:
+        description: Missing or invalid parameters
+    """
     from_currency = request.args.get('from')
     to_currency = request.args.get('to')
     period = request.args.get('period')
@@ -46,6 +84,30 @@ def get_forex_data():
 
 @app.route('/api/all-data', methods=['GET'])
 def get_all_data():
+    """
+    Get All Forex Data
+    ---
+    responses:
+      200:
+        description: A list of all forex rates
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              from_currency:
+                type: string
+                description: The source currency
+              to_currency:
+                type: string
+                description: The target currency
+              date:
+                type: string
+                description: The date of the rate
+              rate:
+                type: number
+                description: The exchange rate
+    """
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
